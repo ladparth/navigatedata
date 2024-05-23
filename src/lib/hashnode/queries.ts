@@ -32,7 +32,6 @@ query GetPostBySlug($host: String!, $slug: String!) {
       readTimeInMinutes
       content {
         markdown
-        html
       }
       tags {
         name
@@ -84,10 +83,30 @@ query GetPostsByPublication($host: String!) {
           brief
           coverImage{
             url
-          }                    
+          }
+          content {
+            markdown
+          }   
+          series{
+            name
+          }                 
         }
       }
     }
   }
 }
 `;
+export const GetPostsBySeries = `query GetPostsBySeries($host: String!){
+  publication(host: $host){
+    seriesList(first:20){
+      edges{
+        node{
+          name
+          posts(first:20){
+            totalDocuments
+          }
+        }
+      }
+    }
+  }
+}`;
