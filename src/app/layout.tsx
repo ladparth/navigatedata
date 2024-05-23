@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   title: "NavigateData",
   description:
     "Unlock data's power with NavigateData! Explore expert insights, tools, and tailored solutions in Power BI, Python, Spark, SQL, and more. Elevate your data journey!  ",
+  
 };
 
 export default function RootLayout({
