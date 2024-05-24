@@ -3,6 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { Input } from "./ui/input";
+import { SearchIcon } from "lucide-react";
 
 type Props = {
   placeholder: string;
@@ -26,12 +27,14 @@ function Search({ placeholder }: Props) {
   }, 300);
 
   return (
-    <Input
-      placeholder={placeholder}
-      onChange={(e) => handleSearch(e.target.value)}
-      defaultValue={searchParams.get("query")?.toString()}
-      autoFocus
-    />
+    <div className="relative ml-auto flex-1">
+      <SearchIcon className="absolute right-3.5 top-2.5 h-4 w-4 text-muted-foreground" />
+      <Input
+        placeholder={placeholder}
+        onChange={(e) => handleSearch(e.target.value)}
+        defaultValue={searchParams.get("query")?.toString()}
+      />
+    </div>
   );
 }
 

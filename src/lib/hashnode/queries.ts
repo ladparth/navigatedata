@@ -67,17 +67,20 @@ query GetPostBySlug($host: String!, $slug: String!) {
 export const getPostsByPublication = `
 query GetPostsByPublication($host: String!) {
   publication(host: $host){
+    seriesList(first:20){
+      edges{
+        node{
+          name
+          posts(first:20){
+            totalDocuments
+          }
+        }
+      }
+    }
     posts(first:20){
       edges{
         node{
           title
-          author{
-            name
-            profilePicture
-          }
-          tags{
-            name
-          }
           publishedAt
           slug
           brief
@@ -108,5 +111,12 @@ export const GetPostsBySeries = `query GetPostsBySeries($host: String!){
         }
       }
     }
+  }
+}`;
+
+export const subscribe = `
+mutation SubscribeToNewsletter($input: SubscribeToNewsletterInput!) {
+  subscribeToNewsletter(input: $input) {
+    status
   }
 }`;
