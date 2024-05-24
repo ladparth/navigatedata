@@ -8,23 +8,17 @@ import { DateFormatter } from "./date-formatter";
 
 interface BlogCardProps {
   imageUrl: string;
-  category: string;
+  series: string;
   title: string;
   description: string;
-  author: string;
-  authorImage: string;
-  authorTitle: string;
   time: string;
 }
 
 export default function BlogCard({
   imageUrl,
-  category,
+  series,
   title,
   description,
-  author,
-  authorImage,
-  authorTitle,
   time,
 }: BlogCardProps) {
   return (
@@ -41,21 +35,11 @@ export default function BlogCard({
       <CardContent className="xl:flex-1 flex gap-4 p-4 md:gap-8 md:p-6 items-center">
         <div className="w-full h-full flex flex-col space-y-4">
           <div className="w-full flex flex-wrap justify-between">
-            <Badge variant="secondary">{category}</Badge>
+            {series ? <Badge variant="secondary">{series}</Badge> : <div></div>}
             <DateFormatter dateString={time} />
           </div>
           <p className="title md:leading-8 text-2xl">{title}</p>
           <p className="text-sm">{description}</p>
-          <div className="flex items-center space-x-4">
-            <Avatar>
-              <AvatarImage src={authorImage} />
-              <AvatarFallback>{getInitials(author)}</AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="text-sm font-medium leading-none">{author}</p>
-              <p className="text-sm text-muted-foreground">{authorTitle}</p>
-            </div>
-          </div>
         </div>
       </CardContent>
     </Card>
