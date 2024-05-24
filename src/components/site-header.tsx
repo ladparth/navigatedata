@@ -23,7 +23,7 @@ export function SiteHeader({ nav }: { nav?: boolean }) {
           <Link href="/" className="mr-6 flex items-center space-x-2">
             {/* <Icons.logo className="h-6 w-6" /> */}
             <span className="hidden font-bold sm:inline-block">
-              NextStarter
+              NavigateData
             </span>
           </Link>
         )}

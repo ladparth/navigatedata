@@ -63,11 +63,18 @@ export function BlogFilter({ items, title }: { items: Item[]; title: string }) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        className={cn(buttonVariants({ variant: "outline" }), "px-2")}
-      >
-        <Filter className="h-5 w-5" />
-      </DropdownMenuTrigger>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DropdownMenuTrigger
+              className={cn(buttonVariants({ variant: "outline" }), "px-2")}
+            >
+              <Filter className="h-5 w-5" />
+            </DropdownMenuTrigger>
+          </TooltipTrigger>
+          <TooltipContent>{title}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel className="flex justify-between items-center">
           <span>{title}</span>

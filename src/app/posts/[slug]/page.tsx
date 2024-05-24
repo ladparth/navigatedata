@@ -90,10 +90,11 @@ export default async function page({ params }: Props) {
       host: process.env.NEXT_PUBLIC_HASHNODE_PUBLICATION_HOST,
       slug,
     },
+    revalidate: 86400,
   });
 
   const post: Post = publication?.post;
-  if(!post){
+  if (!post) {
     notFound();
   }
   return (
@@ -113,6 +114,7 @@ export default async function page({ params }: Props) {
                   profilePicture: post.author.profilePicture,
                 }}
                 readTimeInMinutes={post.readTimeInMinutes}
+                tags={post.tags}
               />
               {/* <CustomMDX source={post.content.markdown} /> */}
               {/* <PostContent content={post.content.html} /> */}

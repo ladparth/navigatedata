@@ -3,13 +3,6 @@ import BlogCard from "./blog-card";
 
 export interface Post {
   title: string;
-  author: {
-    name: string;
-    profilePicture: string;
-  };
-  tags: {
-    name: string;
-  }[];
   publishedAt: string;
   slug: string;
   brief: string;
@@ -38,10 +31,11 @@ export default function BlogList({
   posts = posts
     .filter((post) => {
       const matchesQuery = query
-        ? post.content.markdown.toLowerCase().includes(query.toLowerCase())
+        ? post.content.markdown.toLowerCase().includes(query.toLowerCase()) ||
+          post.title.toLowerCase().includes(query.toLowerCase())
         : true;
 
-      const matchesFilter = filter ? post.series?.name === filter : true;
+      const matchesFilter = filter ? filter.includes(post.series?.name) : true;
 
       return matchesQuery && matchesFilter;
     })
@@ -67,12 +61,9 @@ export default function BlogList({
         >
           <BlogCard
             imageUrl={post.coverImage.url}
-            category={post.tags[0].name}
+            series={post.series?.name}
             title={post.title}
             description={post.brief}
-            author={post.author.name}
-            authorImage={post.author.profilePicture}
-            authorTitle="Data Engineer"
             time={post.publishedAt}
           />
         </Link>
