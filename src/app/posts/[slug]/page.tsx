@@ -6,6 +6,8 @@ import { query } from "@/lib/graphql";
 import { getPostBySlug, getPostMetadataBySlug } from "@/lib/hashnode/queries";
 import { MarkdownToHtml } from "@/components/markdown-to-html";
 import { notFound } from "next/navigation";
+import { PostTOC } from "@/components/post-toc";
+
 interface Post {
   id: string;
   title: string;
@@ -33,7 +35,6 @@ interface Post {
   comments: {
     totalDocuments: number;
   };
-  views: number;
   readTimeInMinutes: number;
   content: {
     markdown: string;
@@ -43,7 +44,18 @@ interface Post {
     name: string;
     postsCount: number;
   }[];
-  reactionCount: number;
+  features: {
+    tableOfContents: {
+      isEnabled: boolean;
+      items: {
+        id: string;
+        level: number;
+        slug: string;
+        title: string;
+        parentId: string;
+      }[];
+    };
+  };
 }
 
 type Props = {
@@ -116,8 +128,9 @@ export default async function page({ params }: Props) {
                 readTimeInMinutes={post.readTimeInMinutes}
                 tags={post.tags}
               />
-              {/* <CustomMDX source={post.content.markdown} /> */}
-              {/* <PostContent content={post.content.html} /> */}
+              {post.features.tableOfContents.isEnabled && (
+                <PostTOC items={post.features.tableOfContents.items} />
+              )}
               <MarkdownToHtml contentMarkdown={post.content.markdown} />
             </div>
           </Card>

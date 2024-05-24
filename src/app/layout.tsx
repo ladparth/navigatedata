@@ -5,16 +5,19 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
+import Subscribe from "@/components/subscribe";
 
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 export const metadata: Metadata = {
-  title: "NavigateData",
+  title: {
+    template: "%s | NavigateData",
+    default: "NavigateData",
+  },
   description:
     "Unlock data's power with NavigateData! Explore expert insights, tools, and tailored solutions in Power BI, Python, Spark, SQL, and more. Elevate your data journey!  ",
-  
 };
 
 export default function RootLayout({
@@ -37,6 +40,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <div className="fixed z-50 xl:bottom-10 xl:right-10 bottom-3 right-3">
+            <Subscribe />
+          </div>
           {children}
           <Analytics />
         </ThemeProvider>

@@ -28,7 +28,6 @@ query GetPostBySlug($host: String!, $slug: String!) {
       comments(first: 0) {
         totalDocuments
       }
-      views
       readTimeInMinutes
       content {
         markdown
@@ -37,7 +36,18 @@ query GetPostBySlug($host: String!, $slug: String!) {
         name
         postsCount
       }
-      reactionCount
+      features{
+        tableOfContents{
+          isEnabled
+          items{
+            id
+            level
+            slug
+            title
+            parentId
+          }
+        }
+      }
     }
   }
 }
