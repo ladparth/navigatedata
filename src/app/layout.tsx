@@ -13,7 +13,7 @@ const fontSans = FontSans({
 });
 export const metadata: Metadata = {
   title: {
-    template: "%s | NavigateData",
+    template: "NavigateData | %s",
     default: "NavigateData",
   },
   description:
@@ -46,7 +46,7 @@ export default function RootLayout({
           {children}
           <Analytics />
         </ThemeProvider>
-        <Toaster richColors closeButton position="top-right" />
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );

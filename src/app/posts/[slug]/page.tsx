@@ -7,6 +7,9 @@ import { getPostBySlug, getPostMetadataBySlug } from "@/lib/hashnode/queries";
 import { MarkdownToHtml } from "@/components/markdown-to-html";
 import { notFound } from "next/navigation";
 import { PostTOC } from "@/components/post-toc";
+import { addArticleJsonLd } from "@/lib/seo/addArticleJsonLd";
+import { Metadata } from "next/types";
+import { SocialShare } from "@/components/social-share";
 
 interface Post {
   id: string;
@@ -79,16 +82,44 @@ export async function generateMetadata({ params }: Props) {
 
   const post: Post = publication?.post;
 
-  const title = post.seo.title || post.title;
-  const description = post.seo.description || post.brief;
-  const url = post.canonicalUrl || post.url;
+  const title = post?.seo?.title || post.title;
+  const description =
+    post?.seo?.description || post?.brief || post?.subtitle || post?.title;
+  const images = post?.coverImage?.url;
+  const url = post?.url;
 
-  return {
-    title: title,
-    description: description,
-    image: post.coverImage.url,
-    url: url,
+  const metadata: Metadata = {
+    title,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    authors: [{ name: post?.author?.username }],
+    keywords: post?.tags?.map((tag) => tag.name),
+    publisher: "NavigateData",
+    category: "Data Engineering & Analytics",
+    openGraph: {
+      title,
+      description,
+      images,
+      type: "article",
+      siteName: "NavigateData",
+      url,
+      tags: post?.tags?.map((tag) => tag.name),
+      authors: [post?.author?.username],
+      section: "Technology",
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: "@PSL4d",
+      creator: "@PSL4d",
+      title: title,
+      description: description,
+      images: post.coverImage.url,
+    },
   };
+
+  return metadata;
 }
 
 export default async function page({ params }: Props) {
@@ -110,32 +141,45 @@ export default async function page({ params }: Props) {
     notFound();
   }
   return (
-    <div className="relative flex flex-col">
-      <SiteHeader nav />
-      <main className="flex flex-col flex-1 p-6">
-        <div className="w-full mr-auto ml-auto flex items-center justify-center flex-1 max-w-screen-2xl">
-          <Card className="w-full md:w-3/4">
-            <div className="p-0 flex flex-col gap-4 mt-12">
-              <PostHeader
-                title={post.title}
-                coverImage={post.coverImage.url}
-                date={post.publishedAt}
-                author={{
-                  username: post.author.username,
-                  name: post.author.name,
-                  profilePicture: post.author.profilePicture,
-                }}
-                readTimeInMinutes={post.readTimeInMinutes}
-                tags={post.tags}
-              />
-              {post.features.tableOfContents.isEnabled && (
-                <PostTOC items={post.features.tableOfContents.items} />
-              )}
-              <MarkdownToHtml contentMarkdown={post.content.markdown} />
-            </div>
-          </Card>
-        </div>
-      </main>
-    </div>
+    <>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(addArticleJsonLd(publication, post)),
+          }}
+        />
+      </head>
+      <div className="relative flex flex-col">
+        <SiteHeader nav />
+        <main className="flex flex-col flex-1 p-6">
+          <div className="w-full mr-auto ml-auto flex items-center justify-center flex-1 max-w-screen-2xl">
+            <Card className="w-full md:w-3/4">
+              <div className="p-0 flex flex-col gap-4 mt-12">
+                <PostHeader
+                  title={post.title}
+                  coverImage={post.coverImage.url}
+                  date={post.publishedAt}
+                  author={{
+                    username: post.author.username,
+                    name: post.author.name,
+                    profilePicture: post.author.profilePicture,
+                  }}
+                  readTimeInMinutes={post.readTimeInMinutes}
+                  tags={post.tags}
+                />
+                {post.features.tableOfContents.isEnabled && (
+                  <PostTOC items={post.features.tableOfContents.items} />
+                )}
+                <MarkdownToHtml contentMarkdown={post.content.markdown} />
+                <div className="fixed z-50 xl:bottom-24 xl:right-10 bottom-16 right-3">
+                  <SocialShare title={post.title} slug={post.slug} />
+                </div>
+              </div>
+            </Card>
+          </div>
+        </main>
+      </div>
+    </>
   );
 }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Card, CardContent, CardTitle } from "./ui/card";
+import { cn } from "@/lib/utils";
 
 type TableOfContentsItem = {
   id: string;
@@ -32,24 +33,32 @@ const mapTableOfContentItems = (toc: TableOfContentsItem[]) => {
 const Toc = ({
   data,
   parentId,
+  child,
 }: {
   data: TableOfContentsItem[];
   parentId: TableOfContentsItem["parentId"];
+  child?: boolean;
 }) => {
   const children = data.filter((item) => item.parentId === parentId);
   if (children.length === 0) return null;
   return (
-    <ul className="mt-5 flex flex-col gap-3 max-md:text-sm md:font-medium">
+    <ul className="flex flex-col max-md:text-sm text-lg">
       {children.map((item) => (
-        <li key={item.id}>
+        <li
+          key={item.id}
+        >
           <Link
             href={`#heading-${item.slug}`}
-            className="hover:underline"
+            className={cn(
+              "flex items-center gap-x-2 rounded-lg px-2 focus:outline-none hover:bg-slate-100 focus:bg-slate-100 dark:hover:bg-slate-800 dark:focus:bg-slate-800 py-2 ",
+              child && "max-md:text-xs text-sm pl-4"
+            )}
           >
-            {item.title}
+            {child && <span>-</span>}
+            <span>{item.title}</span>
           </Link>
 
-          <Toc data={data} parentId={item.id} />
+          <Toc data={data} parentId={item.id} child />
         </li>
       ))}
     </ul>
@@ -61,8 +70,8 @@ export const PostTOC = ({ items }: { items: TableOfContentsItem[] }) => {
     <>
       <div className="w-full px-5">
         <Card className="mx-auto w-full max-w-screen-md rounded-lg p-5 text-base leading-snug">
-          <CardTitle>Table of contents</CardTitle>
-          <CardContent className="max-md:p-0 py-0">
+          <CardTitle className="text-2xl">Table of contents</CardTitle>
+          <CardContent className="p-0 mt-3">
             <Toc parentId={null} data={mapTableOfContentItems(items)} />
           </CardContent>
         </Card>
