@@ -59,7 +59,7 @@ export const PostHeader = ({
           </div>
         </div>
       </div>
-      <div className="flex flex-wrap justify-center items-center w-full space-x-4">
+      <div className="flex flex-wrap justify-center items-center w-full space-x-4 px-2">
         {tags &&
           tags.map((tag, index) => (
             <Badge variant="secondary" key={index} className="my-1">

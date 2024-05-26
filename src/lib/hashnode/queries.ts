@@ -77,6 +77,19 @@ query GetPostBySlug($host: String!, $slug: String!) {
 export const getPostsByPublication = `
 query GetPostsByPublication($host: String!) {
   publication(host: $host){
+    title
+    descriptionSEO
+    url
+    canonicalURL
+    author{
+      name
+      profilePicture
+    }
+    isTeam
+    ogMetaData{
+      image
+    }
+    favicon
     seriesList(first:20){
       edges{
         node{
