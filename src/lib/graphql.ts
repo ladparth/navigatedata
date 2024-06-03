@@ -1,16 +1,24 @@
 interface Query {
   query: string;
   variables?: object;
-  tags?: Array<string>;
-  revalidate?: number;
+  tags?: NextFetchRequestConfig["tags"];
+  revalidate?: NextFetchRequestConfig["revalidate"];
+  cache?: RequestCache;
 }
 
-export async function query({ query, variables, tags, revalidate }: Query) {
-  const data = await fetch(process.env.NEXT_PUBLIC_HASHNODE_GQL_ENDPOINT!, {
+export async function query({
+  query,
+  variables,
+  tags,
+  revalidate,
+  cache,
+}: Query) {
+  const res = await fetch(process.env.NEXT_PUBLIC_HASHNODE_GQL_ENDPOINT!, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    cache: cache,
     body: JSON.stringify({
       query,
       variables,
@@ -19,6 +27,7 @@ export async function query({ query, variables, tags, revalidate }: Query) {
       tags,
       revalidate,
     },
-  }).then((r) => r.json());
+  });
+  const data = await res.json();
   return data;
 }

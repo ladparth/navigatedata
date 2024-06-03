@@ -18,6 +18,9 @@ query GetPostBySlug($host: String!, $slug: String!) {
         name
         profilePicture
         username
+        bio{
+          markdown
+        }
       }
       coverImage {
         url

@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
   } = await query({
     query: getPostsByPublication,
     variables: { host: process.env.NEXT_PUBLIC_HASHNODE_PUBLICATION_HOST },
-    revalidate: 86400,
+    cache:'no-store'
   });
 
   const metadata: Metadata = {
@@ -65,7 +65,7 @@ export default async function Home({ searchParams }: BlogPageProps) {
   } = await query({
     query: getPostsByPublication,
     variables: { host: process.env.NEXT_PUBLIC_HASHNODE_PUBLICATION_HOST },
-    revalidate: 86400,
+    cache:'no-store'
   });
 
   const posts: Post[] = publication.posts.edges.map(
@@ -75,7 +75,6 @@ export default async function Home({ searchParams }: BlogPageProps) {
   const series = publication.seriesList.edges.map(
     ({ node }: { node: SeriesItem }) => node
   );
-
   const seriesItems = series
     .map((item: SeriesItem) => ({
       name: item.name,
@@ -87,18 +86,13 @@ export default async function Home({ searchParams }: BlogPageProps) {
 
   return (
     <>
-      <head>
-        <title>{publication.title}</title>
-        <meta name="description" content={publication.descriptionSEO} />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(addPublicationJsonLd(publication)),
-          }}
-        />
-      </head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(addPublicationJsonLd(publication)),
+        }}
+      />
       <div className="relative flex flex-col">
-        <SiteHeader nav />
         <main className="flex flex-col flex-1 p-6">
           <div className="w-full mr-auto ml-auto flex-1 flex flex-col items-center space-y-4 max-w-screen-2xl">
             <div className="flex gap-2 w-full md:w-2/3">

@@ -8,7 +8,7 @@ export function SiteHeader({ nav }: { nav?: boolean }) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full",
+        "flex w-full",
         nav &&
           "border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       )}
@@ -22,9 +22,7 @@ export function SiteHeader({ nav }: { nav?: boolean }) {
         ) : (
           <Link href="/" className="mr-6 flex items-center space-x-2">
             {/* <Icons.logo className="h-6 w-6" /> */}
-            <span className="hidden font-bold sm:inline-block">
-              NavigateData
-            </span>
+            <span className="font-semibold sm:inline-block">NavigateData</span>
           </Link>
         )}
         <div className="flex items-center justify-between space-x-2 md:justify-end">

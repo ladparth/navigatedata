@@ -6,6 +6,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 import Subscribe from "@/components/subscribe";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -43,7 +45,9 @@ export default function RootLayout({
           <div className="fixed z-50 xl:bottom-10 xl:right-10 bottom-3 right-3">
             <Subscribe />
           </div>
+          <SiteHeader />
           {children}
+          <SiteFooter />
           <Analytics />
         </ThemeProvider>
         <Toaster richColors position="top-right" />

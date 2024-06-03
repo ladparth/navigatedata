@@ -10,6 +10,7 @@ import { PostTOC } from "@/components/post-toc";
 import { addArticleJsonLd } from "@/lib/seo/addArticleJsonLd";
 import { Metadata } from "next/types";
 import { SocialShare } from "@/components/social-share";
+import AuthorBio from "@/components/author-bio";
 
 interface Post {
   id: string;
@@ -28,6 +29,9 @@ interface Post {
     name: string;
     profilePicture: string;
     username: string;
+    bio: {
+      markdown: string;
+    };
   };
   coverImage: {
     url: string;
@@ -78,10 +82,13 @@ export async function generateMetadata({ params }: Props) {
       host: process.env.NEXT_PUBLIC_HASHNODE_PUBLICATION_HOST,
       slug,
     },
+    cache: "no-store",
   });
 
   const post: Post = publication?.post;
-
+  if (!post) {
+    notFound();
+  }
   const title = post?.seo?.title || post.title;
   const description =
     post?.seo?.description || post?.brief || post?.subtitle || post?.title;
@@ -133,7 +140,7 @@ export default async function page({ params }: Props) {
       host: process.env.NEXT_PUBLIC_HASHNODE_PUBLICATION_HOST,
       slug,
     },
-    revalidate: 86400,
+    cache: "no-store",
   });
 
   const post: Post = publication?.post;
@@ -142,16 +149,14 @@ export default async function page({ params }: Props) {
   }
   return (
     <>
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(addArticleJsonLd(publication, post)),
-          }}
-        />
-      </head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(addArticleJsonLd(publication, post)),
+        }}
+      />
+
       <div className="relative flex flex-col">
-        <SiteHeader nav />
         <main className="flex flex-col flex-1 p-6">
           <div className="w-full mr-auto ml-auto flex items-center justify-center flex-1 max-w-screen-2xl">
             <Card className="w-full md:w-3/4">
@@ -172,7 +177,10 @@ export default async function page({ params }: Props) {
                   <PostTOC items={post.features.tableOfContents.items} />
                 )}
                 <MarkdownToHtml contentMarkdown={post.content.markdown} />
-                <div className="fixed z-50 xl:bottom-24 xl:right-10 bottom-16 right-3">
+                <div className="py-4 mx-auto w-full px-6 md:max-w-screen-md">
+                  <AuthorBio author={post.author} />
+                </div>
+                <div className="fixed z-50 xl:bottom-20 xl:right-10 bottom-14 right-3">
                   <SocialShare title={post.title} slug={post.slug} />
                 </div>
               </div>
