@@ -5,9 +5,10 @@ import { memo } from "react";
 import { cn } from "@/lib/utils";
 type Props = {
   contentMarkdown: string;
+  className?: string;
 };
 
-const _MarkdownToHtml = ({ contentMarkdown }: Props) => {
+const _MarkdownToHtml = ({ contentMarkdown, className }: Props) => {
   const content = markdownToHtml(contentMarkdown);
   // useEmbeds({ enabled: true });
   const highlightJsMonokaiTheme =
@@ -23,7 +24,8 @@ const _MarkdownToHtml = ({ contentMarkdown }: Props) => {
       <div
         className={cn(
           "mx-auto w-full px-5 md:max-w-screen-md",
-          "prose dark:prose-invert prose-pre:border prose-img:rounded-lg prose-img:shadow-lg lg:prose-xl [&>iframe]:w-full [&>iframe]:aspect-video"
+          "prose dark:prose-invert prose-pre:border prose-img:rounded-lg prose-img:shadow-lg lg:prose-xl [&>iframe]:w-full [&>iframe]:aspect-video",
+          className
         )}
         dangerouslySetInnerHTML={{ __html: content }}
       />
