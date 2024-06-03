@@ -37,7 +37,10 @@ export const PostHeader = ({
           <div className="flex flex-col max-md:space-y-4 md:flex-row items-center justify-center">
             <div className="flex items-center space-x-4">
               <Avatar>
-                <AvatarImage src={author.profilePicture} />
+                <AvatarImage
+                  src={author.profilePicture}
+                  className="object-cover"
+                />
                 <AvatarFallback>{getInitials(author.name)}</AvatarFallback>
               </Avatar>
               <div>

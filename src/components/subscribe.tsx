@@ -9,10 +9,10 @@ export default function Subscribe() {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="rounded-lg text-md flex gap-2 items-center p-6"
+          className="rounded-lg flex gap-2 items-center"
         >
           <Mail />
-          <span>Subscribe</span>
+          <span className="hidden lg:flex">Subscribe</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80 mr-3 xl:mr-10 shadow-md" side="top">

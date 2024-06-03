@@ -95,14 +95,6 @@ export function BlogFilter({ items, title }: { items: Item[]; title: string }) {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          {/* <Button
-            size="sm"
-            variant="outline"
-            className="rounded-lg"
-            onClick={handleClear}
-          >
-            <Eraser className="h-5 w-5" />
-          </Button> */}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <ScrollArea className="h-60">
