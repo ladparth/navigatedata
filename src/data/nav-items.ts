@@ -1,16 +1,12 @@
 export const navItems = {
   mainNav: [
-    // {
-    //   title: "Home",
-    //   href: "/",
-    // },
-    // {
-    //   title: "Blogs",
-    //   href: "/blogs",
-    // },
-    // {
-    //   title: "About",
-    //   href: "/about",
-    // },
+    {
+      title: "Blog",
+      href: "/blog",
+    },
+    {
+      title: "About",
+      href: "/about",
+    },
   ],
 };

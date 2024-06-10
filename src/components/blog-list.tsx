@@ -55,7 +55,7 @@ export default function BlogList({
     <>
       {posts.map((post: any) => (
         <Link
-          href={`/posts/${post.slug}`}
+          href={`/blog/${post.slug}`}
           key={post.slug}
           className="w-full md:w-2/3"
         >

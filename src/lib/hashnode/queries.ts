@@ -80,6 +80,7 @@ query GetPostBySlug($host: String!, $slug: String!) {
 export const getPostsByPublication = `
 query GetPostsByPublication($host: String!) {
   publication(host: $host){
+    id
     title
     descriptionSEO
     url
@@ -96,6 +97,7 @@ query GetPostsByPublication($host: String!) {
     seriesList(first:20){
       edges{
         node{
+          id
           name
           posts(first:20){
             totalDocuments
@@ -106,6 +108,7 @@ query GetPostsByPublication($host: String!) {
     posts(first:20){
       edges{
         node{
+          id
           title
           publishedAt
           slug
@@ -144,5 +147,24 @@ export const subscribe = `
 mutation SubscribeToNewsletter($input: SubscribeToNewsletterInput!) {
   subscribeToNewsletter(input: $input) {
     status
+  }
+}`;
+
+export const getPageBySlug = `
+query getPages($host: String!, $slug: String!) {
+  publication(host: $host) {
+    id
+    staticPage(slug: $slug) {
+      id
+      title
+      slug
+      ogMetaData {
+        image
+      }
+      seo {
+        title
+        description
+      }
+    }
   }
 }`;
