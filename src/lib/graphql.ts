@@ -6,6 +6,16 @@ interface Query {
   cache?: RequestCache;
 }
 
+interface PostRequestConfig {
+  method: "POST";
+  headers: {
+    "Content-Type": "application/json";
+  };
+  body: string;
+  cache?: RequestCache;
+  next?: NextFetchRequestConfig;
+}
+
 export async function query({
   query,
   variables,
@@ -13,21 +23,33 @@ export async function query({
   revalidate,
   cache,
 }: Query) {
-  const res = await fetch(process.env.NEXT_PUBLIC_HASHNODE_GQL_ENDPOINT!, {
+  const postRequestConfig: PostRequestConfig = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    cache: cache,
     body: JSON.stringify({
       query,
       variables,
     }),
-    next: {
+  };
+
+  if (cache) {
+    postRequestConfig.cache = cache;
+  }
+
+  if (tags || revalidate) {
+    postRequestConfig.next = {
       tags,
       revalidate,
-    },
-  });
+    };
+  }
+
+  const res = await fetch(
+    process.env.NEXT_PUBLIC_HASHNODE_GQL_ENDPOINT!,
+    postRequestConfig
+  );
+
   const data = await res.json();
   return data;
 }

@@ -9,7 +9,7 @@ export default function Subscribe() {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="rounded-lg flex gap-2 items-center"
+          className="rounded-lg flex gap-2 items-center py-5"
         >
           <Mail />
           <span className="hidden lg:flex">Subscribe</span>

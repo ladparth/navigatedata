@@ -27,7 +27,7 @@ export function SocialShare({ title, slug }: { title: string; slug: string }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" className="rounded-lg py-2">
+        <Button variant="outline" className="rounded-lg py-5 flex justify-center items-center">
           <ShareIcon fill="currentColor" />
         </Button>
       </PopoverTrigger>

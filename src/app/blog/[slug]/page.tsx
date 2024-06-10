@@ -1,9 +1,12 @@
-import { SiteHeader } from "@/components/site-header";
 import { Card } from "@/components/ui/card";
 import React from "react";
 import { PostHeader } from "@/components/post-header";
 import { query } from "@/lib/graphql";
-import { getPostBySlug, getPostMetadataBySlug } from "@/lib/hashnode/queries";
+import {
+  getPostBySlug,
+  getPostMetadataBySlug,
+  getPostsByPublication,
+} from "@/lib/hashnode/queries";
 import { MarkdownToHtml } from "@/components/markdown-to-html";
 import { notFound } from "next/navigation";
 import { PostTOC } from "@/components/post-toc";
@@ -11,6 +14,9 @@ import { addArticleJsonLd } from "@/lib/seo/addArticleJsonLd";
 import { Metadata } from "next/types";
 import { SocialShare } from "@/components/social-share";
 import AuthorBio from "@/components/author-bio";
+
+export const revalidate = 10;
+export const dynamicParams = true;
 
 interface Post {
   id: string;
@@ -82,7 +88,6 @@ export async function generateMetadata({ params }: Props) {
       host: process.env.NEXT_PUBLIC_HASHNODE_PUBLICATION_HOST,
       slug,
     },
-    cache: "no-store",
   });
 
   const post: Post = publication?.post;
@@ -129,6 +134,27 @@ export async function generateMetadata({ params }: Props) {
   return metadata;
 }
 
+export async function generateStaticParams() {
+  const {
+    data: { publication },
+  } = await query({
+    query: getPostsByPublication,
+    variables: {
+      host: process.env.NEXT_PUBLIC_HASHNODE_PUBLICATION_HOST,
+    },
+  });
+
+  const posts: Post[] = publication?.posts?.edges.map(
+    ({ node }: { node: Post }) => node
+  );
+
+  return posts.map((post) => ({
+    params: {
+      slug: post.slug,
+    },
+  }));
+}
+
 export default async function page({ params }: Props) {
   const { slug } = params;
 
@@ -140,7 +166,6 @@ export default async function page({ params }: Props) {
       host: process.env.NEXT_PUBLIC_HASHNODE_PUBLICATION_HOST,
       slug,
     },
-    cache: "no-store",
   });
 
   const post: Post = publication?.post;
@@ -155,7 +180,6 @@ export default async function page({ params }: Props) {
           __html: JSON.stringify(addArticleJsonLd(publication, post)),
         }}
       />
-
       <div className="relative flex flex-col">
         <main className="flex flex-col flex-1 p-6">
           <div className="w-full mr-auto ml-auto flex items-center justify-center flex-1 max-w-screen-2xl">
@@ -177,12 +201,12 @@ export default async function page({ params }: Props) {
                   <PostTOC items={post.features.tableOfContents.items} />
                 )}
                 <MarkdownToHtml contentMarkdown={post.content.markdown} />
-                <div className="py-4 mx-auto w-full px-6 md:max-w-screen-md">
-                  <AuthorBio author={post.author} />
-                </div>
-                <div className="fixed z-50 xl:bottom-20 xl:right-10 bottom-14 right-3">
+                <div className="fixed z-50 xl:bottom-[5.5rem] xl:right-10 bottom-14 right-3">
                   <SocialShare title={post.title} slug={post.slug} />
                 </div>
+              </div>
+              <div className="py-4 mx-auto w-full px-6 md:max-w-screen-md">
+                <AuthorBio author={post.author} />
               </div>
             </Card>
           </div>
