@@ -14,11 +14,12 @@ import { addArticleJsonLd } from "@/lib/seo/addArticleJsonLd";
 import { Metadata } from "next/types";
 import { SocialShare } from "@/components/social-share";
 import AuthorBio from "@/components/author-bio";
+import TOC from "@/components/toc-popover";
 
 export const revalidate = 10;
 export const dynamicParams = true;
 
-interface Post {
+export interface Post {
   id: string;
   title: string;
   subtitle: string;
@@ -43,6 +44,7 @@ interface Post {
     url: string;
   };
   publishedAt: string;
+  updatedAt: string;
   slug: string;
   brief: string;
   comments: {
@@ -198,10 +200,13 @@ export default async function page({ params }: Props) {
                   tags={post.tags}
                 />
                 {post.features.tableOfContents.isEnabled && (
-                  <PostTOC items={post.features.tableOfContents.items} />
+                  <div className="px-5">
+                    <PostTOC items={post.features.tableOfContents.items} />
+                  </div>
                 )}
                 <MarkdownToHtml contentMarkdown={post.content.markdown} />
-                <div className="fixed z-50 xl:bottom-[5.5rem] xl:right-10 bottom-14 right-3">
+                <div className="flex flex-col gap-2 fixed z-50 xl:bottom-[5.5rem] xl:right-10 bottom-14 right-3">
+                  <TOC items={post.features.tableOfContents.items} />
                   <SocialShare title={post.title} slug={post.slug} />
                 </div>
               </div>
