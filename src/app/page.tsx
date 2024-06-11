@@ -40,7 +40,7 @@ export default function Home() {
     <main className="flex-1 flex flex-col text-center justify-center items-center">
       <PageHeader>
         <h1 className="text-4xl font-bold sm:text-7xl">NavigateData</h1>
-        <PageHeaderDescription className="text-lg font-light text-muted-foreground sm:text-xl">
+        <PageHeaderDescription>
           Navigate the Data Landscape
         </PageHeaderDescription>
         <section className="max-w-[600px] px-6">

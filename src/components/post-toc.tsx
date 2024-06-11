@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Card, CardContent, CardTitle } from "./ui/card";
 import { cn } from "@/lib/utils";
 
-type TableOfContentsItem = {
+export type TableOfContentsItem = {
   id: string;
   level: number;
   slug: string;
@@ -44,9 +44,7 @@ const Toc = ({
   return (
     <ul className="flex flex-col max-md:text-sm text-lg">
       {children.map((item) => (
-        <li
-          key={item.id}
-        >
+        <li key={item.id}>
           <Link
             href={`#heading-${item.slug}`}
             className={cn(
@@ -65,11 +63,22 @@ const Toc = ({
   );
 };
 
-export const PostTOC = ({ items }: { items: TableOfContentsItem[] }) => {
+export const PostTOC = ({
+  items,
+  className,
+}: {
+  items: TableOfContentsItem[];
+  className?: string;
+}) => {
   return (
     <>
-      <div className="w-full px-5">
-        <Card className="mx-auto w-full max-w-screen-md rounded-lg p-5 text-base leading-snug">
+      <div className="w-full">
+        <Card
+          className={cn(
+            "mx-auto w-full max-w-screen-md rounded-lg p-5 text-base leading-snug",
+            className
+          )}
+        >
           <CardTitle className="text-2xl">Table of contents</CardTitle>
           <CardContent className="p-0 mt-3">
             <Toc parentId={null} data={mapTableOfContentItems(items)} />

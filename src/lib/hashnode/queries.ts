@@ -111,6 +111,7 @@ query GetPostsByPublication($host: String!) {
           id
           title
           publishedAt
+          updatedAt
           slug
           brief
           coverImage{
