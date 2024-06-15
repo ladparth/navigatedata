@@ -1,6 +1,5 @@
 import Link from "next/link";
 import BlogCard from "./blog-card";
-
 export interface Post {
   title: string;
   publishedAt: string;
@@ -16,19 +15,25 @@ export interface Post {
     name: string;
   };
 }
+export interface PageInfo {
+  hasNextPage: boolean;
+  endCursor: string;
+}
 
 export default function BlogList({
-  posts,
+  initialPosts,
+  initialPageInfo,
   query,
   sort,
   filter,
 }: {
-  posts: Post[];
+  initialPosts: Post[];
+  initialPageInfo: PageInfo;
   query?: string;
   sort?: string;
   filter?: string;
 }) {
-  posts = posts
+  const posts = initialPosts
     .filter((post) => {
       const matchesQuery = query
         ? post.content.markdown.toLowerCase().includes(query.toLowerCase()) ||

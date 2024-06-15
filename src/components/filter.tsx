@@ -27,7 +27,7 @@ type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 export type Item = {
   name: string;
-  count: number;
+  posts: number;
 };
 
 export function BlogFilter({ items, title }: { items: Item[]; title: string }) {
@@ -106,7 +106,7 @@ export function BlogFilter({ items, title }: { items: Item[]; title: string }) {
                 handleCheckedChanged(item.name, checked)
               }
             >
-              {item.name} ({item.count})
+              {item.name} ({item.posts})
             </DropdownMenuCheckboxItem>
           ))}
         </ScrollArea>

@@ -1,13 +1,11 @@
-import BlogList, { Post } from "@/components/blog-list";
+import BlogList from "@/components/blog-list";
 import { BlogFilter } from "@/components/filter";
 import Search from "@/components/search";
 import Sort, { SortOrder } from "@/components/sort";
-import { query } from "@/lib/graphql";
-import { getPostsByPublication } from "@/lib/hashnode/queries";
+import { fetchPublication, getPosts, getSeries } from "@/lib/hashnode/actions";
 import { addPublicationJsonLd } from "@/lib/seo/addPublicationJsonLd";
 import { Metadata } from "next/types";
 
-export const revalidate = 10;
 export interface BlogPageProps {
   searchParams?: {
     query?: string;
@@ -16,23 +14,11 @@ export interface BlogPageProps {
   };
 }
 
-export interface SeriesItem {
-  name: string;
-  posts: {
-    totalDocuments: number;
-  };
-}
-
 export async function generateMetadata(): Promise<Metadata> {
-  const {
-    data: { publication },
-  } = await query({
-    query: getPostsByPublication,
-    variables: { host: process.env.NEXT_PUBLIC_HASHNODE_PUBLICATION_HOST },
-  });
+  const publication = await fetchPublication(1);
 
   const metadata: Metadata = {
-    title: "NavigateData Blog",
+    title: "Blog",
     description: publication.descriptionSEO,
     category: "Data Engineering & Analytics",
     publisher: "NavigateData",
@@ -59,28 +45,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home({ searchParams }: BlogPageProps) {
-  const {
-    data: { publication },
-  } = await query({
-    query: getPostsByPublication,
-    variables: { host: process.env.NEXT_PUBLIC_HASHNODE_PUBLICATION_HOST },
-  });
-
-  const posts: Post[] = publication.posts.edges.map(
-    ({ node }: { node: Post }) => node
-  );
-
-  const series = publication.seriesList.edges.map(
-    ({ node }: { node: SeriesItem }) => node
-  );
-  const seriesItems = series
-    .map((item: SeriesItem) => ({
-      name: item.name,
-      count: item.posts.totalDocuments,
-    }))
-    .sort((a: { name: string }, b: { name: string }) =>
-      a.name.localeCompare(b.name)
-    );
+  const posts = await getPosts();
+  const publication = await fetchPublication(1);
+  const series = await getSeries();
 
   return (
     <>
@@ -96,10 +63,11 @@ export default async function Home({ searchParams }: BlogPageProps) {
             <div className="flex gap-2 w-full md:w-2/3">
               <Search placeholder="Search posts..." />
               <Sort />
-              <BlogFilter items={seriesItems} title="Filter by Series" />
+              <BlogFilter items={series} title="Filter by Series" />
             </div>
             <BlogList
-              posts={posts}
+              initialPosts={posts}
+              initialPageInfo={publication.posts.pageInfo}
               query={searchParams?.query}
               filter={searchParams?.filter}
               sort={searchParams?.sort}
