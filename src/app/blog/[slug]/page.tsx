@@ -2,11 +2,7 @@ import { Card } from "@/components/ui/card";
 import React from "react";
 import { PostHeader } from "@/components/post-header";
 import { query } from "@/lib/graphql";
-import {
-  getPostBySlug,
-  getPostMetadataBySlug,
-  getPostsByPublication,
-} from "@/lib/hashnode/queries";
+import { getPostBySlug, getPostMetadataBySlug } from "@/lib/hashnode/queries";
 import { MarkdownToHtml } from "@/components/markdown-to-html";
 import { notFound } from "next/navigation";
 import { PostTOC } from "@/components/post-toc";
@@ -15,11 +11,13 @@ import { Metadata } from "next/types";
 import { SocialShare } from "@/components/social-share";
 import AuthorBio from "@/components/author-bio";
 import TOC from "@/components/toc-popover";
+import { getPosts } from "@/lib/hashnode/actions";
 
-export const revalidate = 10;
 export const dynamicParams = true;
+export const revalidate = 3600;
 
 export interface Post {
+  [x: string]: any;
   id: string;
   title: string;
   subtitle: string;
@@ -54,6 +52,9 @@ export interface Post {
   content: {
     markdown: string;
     html: string;
+  };
+  series: {
+    name: string;
   };
   tags: {
     name: string;
@@ -137,18 +138,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  const {
-    data: { publication },
-  } = await query({
-    query: getPostsByPublication,
-    variables: {
-      host: process.env.NEXT_PUBLIC_HASHNODE_PUBLICATION_HOST,
-    },
-  });
-
-  const posts: Post[] = publication?.posts?.edges.map(
-    ({ node }: { node: Post }) => node
-  );
+  const posts = await getPosts();
 
   return posts.map((post) => ({
     params: {

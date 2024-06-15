@@ -1,20 +1,7 @@
-import { Post } from "@/app/blog/[slug]/page";
-import { query } from "@/lib/graphql";
-import { getPostsByPublication } from "@/lib/hashnode/queries";
+import { getPosts } from "@/lib/hashnode/actions";
 
 export default async function sitemap() {
-  const {
-    data: { publication },
-  } = await query({
-    query: getPostsByPublication,
-    variables: {
-      host: process.env.NEXT_PUBLIC_HASHNODE_PUBLICATION_HOST,
-    },
-  });
-
-  const posts: Post[] = publication?.posts?.edges.map(
-    ({ node }: { node: Post }) => node
-  );
+  const posts = await getPosts();
 
   const blogs = posts.map((post) => ({
     url: `${process.env.BASE_URL}/blog/${post.slug}`,

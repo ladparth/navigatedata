@@ -78,7 +78,7 @@ query GetPostBySlug($host: String!, $slug: String!) {
 `;
 
 export const getPostsByPublication = `
-query GetPostsByPublication($host: String!) {
+query GetPostsByPublication($host: String!,$first: Int!,$after: String){
   publication(host: $host){
     id
     title
@@ -94,18 +94,22 @@ query GetPostsByPublication($host: String!) {
       image
     }
     favicon
-    seriesList(first:20){
+    seriesList(first:$first, after: $after){
       edges{
         node{
           id
           name
-          posts(first:20){
+          posts(first: $first, after: $after){
             totalDocuments
           }
         }
       }
     }
-    posts(first:20){
+    posts(first: $first, after: $after){
+      pageInfo{
+        hasNextPage
+        endCursor
+      }
       edges{
         node{
           id
