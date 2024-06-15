@@ -17,7 +17,7 @@ import {
   RedditIcon,
 } from "next-share";
 export function SocialShare({ title, slug }: { title: string; slug: string }) {
-  const url = `https://blog.thenavigatedata.com/posts/${slug}`;
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/blog/${slug}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(url);
@@ -27,11 +27,17 @@ export function SocialShare({ title, slug }: { title: string; slug: string }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" className="rounded-lg py-5 flex justify-center items-center">
+        <Button
+          variant="outline"
+          className="rounded-lg py-5 flex justify-center items-center"
+        >
           <ShareIcon fill="currentColor" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-14 flex flex-col gap-3 items-center" side="top">
+      <PopoverContent
+        className="w-14 flex flex-col gap-3 items-center"
+        side="top"
+      >
         <Button variant="ghost" size="icon" onClick={handleCopy}>
           <PermalinkIcon />
         </Button>
