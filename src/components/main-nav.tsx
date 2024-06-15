@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { navItems } from "@/data/nav-items";
+import { buttonVariants } from "./ui/button";
 
 type NavLinkProps = {
   label: string;
@@ -17,7 +18,10 @@ function NavLink({ label, href, pathname }: NavLinkProps) {
       href={href}
       className={cn(
         "transition-colors hover:text-foreground/80",
-        pathname?.startsWith(href) ? "text-foreground" : "text-foreground/60"
+        pathname?.startsWith(href) ? "text-foreground" : "text-foreground/60",
+        buttonVariants({
+          variant: "ghost",
+        })
       )}
     >
       {label}
@@ -32,9 +36,11 @@ export function MainNav() {
     <div className="mr-4 hidden md:flex">
       <Link href="/" className="mr-6 flex items-center space-x-2">
         {/* <Icons.logo className="h-6 w-6" /> */}
-        <span className="hidden font-medium text-lg sm:inline-block">NavigateData</span>
+        <span className="hidden font-medium text-lg sm:inline-block">
+          NavigateData
+        </span>
       </Link>
-      <nav className="flex items-center gap-4 text-sm lg:gap-6">
+      <nav className="flex items-center text-sm">
         {navItems.mainNav &&
           navItems.mainNav.map((item: { title: string; href: string }) => (
             <NavLink

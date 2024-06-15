@@ -78,8 +78,9 @@ query GetPostBySlug($host: String!, $slug: String!) {
 `;
 
 export const getPostsByPublication = `
-query GetPostsByPublication($host: String!) {
+query GetPostsByPublication($host: String!,$first: Int!,$after: String){
   publication(host: $host){
+    id
     title
     descriptionSEO
     url
@@ -93,21 +94,28 @@ query GetPostsByPublication($host: String!) {
       image
     }
     favicon
-    seriesList(first:20){
+    seriesList(first:$first, after: $after){
       edges{
         node{
+          id
           name
-          posts(first:20){
+          posts(first: $first, after: $after){
             totalDocuments
           }
         }
       }
     }
-    posts(first:20){
+    posts(first: $first, after: $after){
+      pageInfo{
+        hasNextPage
+        endCursor
+      }
       edges{
         node{
+          id
           title
           publishedAt
+          updatedAt
           slug
           brief
           coverImage{
@@ -144,5 +152,24 @@ export const subscribe = `
 mutation SubscribeToNewsletter($input: SubscribeToNewsletterInput!) {
   subscribeToNewsletter(input: $input) {
     status
+  }
+}`;
+
+export const getPageBySlug = `
+query getPages($host: String!, $slug: String!) {
+  publication(host: $host) {
+    id
+    staticPage(slug: $slug) {
+      id
+      title
+      slug
+      ogMetaData {
+        image
+      }
+      seo {
+        title
+        description
+      }
+    }
   }
 }`;

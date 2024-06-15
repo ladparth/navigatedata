@@ -32,7 +32,7 @@ export default function RootLayout({
       <head />
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "min-h-screen bg-background font-sans antialiased flex flex-col",
           fontSans.variable
         )}
       >
@@ -42,10 +42,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="fixed z-50 xl:bottom-10 xl:right-10 bottom-3 right-3">
-            <Subscribe />
-          </div>
-          <SiteHeader />
+          <SiteHeader nav />
           {children}
           <SiteFooter />
           <Analytics />

@@ -1,9 +1,9 @@
-import { Mail } from "lucide-react";
-import { SubscribeForm } from "./subscribe-form";
+import { List } from "lucide-react";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { PostTOC, TableOfContentsItem } from "./post-toc";
 
-export default function Subscribe() {
+export default function TOC({ items }: { items: TableOfContentsItem[] }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -11,12 +11,14 @@ export default function Subscribe() {
           variant="outline"
           className="rounded-lg flex gap-2 items-center py-5"
         >
-          <Mail />
-          <span className="hidden lg:flex">Subscribe</span>
+          <List />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80 mr-3 xl:mr-10 shadow-md" side="top">
-        <SubscribeForm />
+      <PopoverContent
+        className="p-0 w-80 md:w-[28rem] mr-3 xl:mr-10 shadow-md"
+        side="top"
+      >
+        <PostTOC items={items} className="border-none" />
       </PopoverContent>
     </Popover>
   );
