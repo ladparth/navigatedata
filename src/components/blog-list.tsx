@@ -63,6 +63,7 @@ export default function BlogList({
           href={`/blog/${post.slug}`}
           key={post.slug}
           className="w-full md:w-2/3"
+          aria-label={`Read ${post.title}, published on ${post.publishedAt}`}
         >
           <BlogCard
             imageUrl={post.coverImage.url}

@@ -68,7 +68,10 @@ export function BlogFilter({ items, title }: { items: Item[]; title: string }) {
           <TooltipTrigger asChild>
             <DropdownMenuTrigger
               className={cn(buttonVariants({ variant: "outline" }), "px-2")}
+              aria-label="Filter posts by series"
+              title="Filter posts by series"
             >
+              <span className="sr-only">Filter posts by series</span>
               <Filter className="h-5 w-5" />
             </DropdownMenuTrigger>
           </TooltipTrigger>

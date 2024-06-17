@@ -15,7 +15,14 @@ export function ModeToggle() {
       variant="ghost"
       className="rounded-full"
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+      aria-label={
+        theme === "light" ? "Activate dark mode" : "Activate light mode"
+      }
+      title={theme === "light" ? "Activate dark mode" : "Activate light mode"}
     >
+      <span className="sr-only">
+        {theme === "light" ? "Activate dark mode" : "Activate light mode"}
+      </span>
       {theme === "light" ? (
         <SunIcon className="h-5 w-5" />
       ) : (

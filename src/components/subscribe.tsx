@@ -10,6 +10,8 @@ export default function Subscribe() {
         <Button
           variant="outline"
           className="rounded-lg flex gap-2 items-center py-5"
+          aria-label="Subscribe to our newsletter"
+          title="Subscribe to our newsletter"
         >
           <Mail />
           <span className="hidden lg:flex">Subscribe</span>

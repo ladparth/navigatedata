@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { Metadata } from "next/types";
 import Link from "next/link";
 import React from "react";
+import AnimatedText from "@/components/animated-text";
 
 export async function generateMetadata(): Promise<Metadata> {
   const {
@@ -24,10 +25,13 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     cache: "no-store",
   });
-
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/about`;
   const metadata: Metadata = {
-    title: "About NavigateData",
+    title: "About",
     description: staticPage.seo.description,
+    alternates: {
+      canonical: url,
+    },
     category: "Data Engineering & Analytics",
     publisher: "NavigateData",
     twitter: {
@@ -40,6 +44,8 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: "About NavigateData",
       description: staticPage.seo.description,
+      siteName: "About NavigateData",
+      url,
       images: [
         {
           url: staticPage.ogMetaData.image,
@@ -59,14 +65,18 @@ export default function page() {
         <PageHeader>
           <PageHeaderHeading>About Me</PageHeaderHeading>
           <PageHeaderDescription className="max-w-[950px]">
-            Hey there! Welcome to NavigateData. I&apos;m a data analyst with 4+
-            years of experience in Data Analytics and Engineering using
+            Hey there! Welcome to <AnimatedText>NavigateData</AnimatedText>.
+            <br />
+            <br />
+            I&apos;m <AnimatedText>Parth Lad</AnimatedText>, a data analyst with
+            4+ years of experience in{" "}
+            <AnimatedText>Data Analytics and Engineering</AnimatedText> using
             Microsoft Fabric and Power BI. I created this site to share my
             knowledge with fellow data enthusiasts.
             <br /> <br /> If you need any help with data-related inquiries or
-            have questions, feel free to reach out, and don&apos;t forget to
-            subscribe to my newsletter for the latest blog updates — no spam, I
-            promise!
+            have questions, feel free to reach out, and don&apos;t forget to{" "}
+            <AnimatedText>subscribe to my newsletter</AnimatedText> for the
+            latest blog updates — no spam, I promise!
             <br />
             <br />
             <Link
@@ -76,6 +86,7 @@ export default function page() {
                   variant: "default",
                 })
               )}
+              aria-label="Connect with me"
             >
               Connect with me
             </Link>

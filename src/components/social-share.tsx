@@ -30,7 +30,10 @@ export function SocialShare({ title, slug }: { title: string; slug: string }) {
         <Button
           variant="outline"
           className="rounded-lg py-5 flex justify-center items-center"
+          aria-label="Share post"
+          title="Share post"
         >
+          <span className="sr-only">Share post</span>
           <ShareIcon fill="currentColor" />
         </Button>
       </PopoverTrigger>
