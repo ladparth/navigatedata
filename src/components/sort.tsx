@@ -44,7 +44,10 @@ export default function Sort() {
             variant="outline"
             className="rounded-lg p-2"
             onClick={handleSort}
+            aria-label={`sort posts by date ${sortOrder}`}
+            title={`sort posts by date ${sortOrder}`}
           >
+            <span className="sr-only">{`sort posts by date ${sortOrder}`}</span>
             {sortOrder === SortOrder.Asc ? (
               <ArrowUpWideNarrow className="h-5 w-5" />
             ) : (

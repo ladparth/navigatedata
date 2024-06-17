@@ -10,7 +10,10 @@ export default function TOC({ items }: { items: TableOfContentsItem[] }) {
         <Button
           variant="outline"
           className="rounded-lg flex gap-2 items-center py-5"
+          aria-label="Table of contents"
+          title="Table of contents"
         >
+          <span className="sr-only">Table of contents</span>
           <List />
         </Button>
       </PopoverTrigger>

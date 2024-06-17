@@ -101,7 +101,7 @@ export async function generateMetadata({ params }: Props) {
   const description =
     post?.seo?.description || post?.brief || post?.subtitle || post?.title;
   const images = post?.coverImage?.url;
-  const url = post?.url;
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/blog/${post.slug}`;
 
   const metadata: Metadata = {
     title,

@@ -5,14 +5,19 @@ import {
 } from "@/components/page-header";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Metadata } from "next/types";
 import Link from "next/link";
 
 export async function generateMetadata() {
-  const metadata = {
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/`;
+  const metadata: Metadata = {
     title: "NavigateData",
     description: "Navigate the Data Landscape",
     category: "Data Engineering & Analytics",
     publisher: "NavigateData",
+    alternates: {
+      canonical: url,
+    },
     twitter: {
       site: "@PSL4d",
       card: "summary_large_image",
@@ -24,6 +29,8 @@ export async function generateMetadata() {
     openGraph: {
       title: "NavigateData",
       description: "Navigate the Data Landscape",
+      siteName: "NavigateData",
+      url,
       images: [
         {
           url: "https://cdn.hashnode.com/res/hashnode/image/upload/v1702738883982/iAH7qOECO.png?w=800&h=420&fit=crop&crop=entropy&auto=compress,format&format=webp",
@@ -50,7 +57,11 @@ export default function Home() {
           </p>
         </section>
         <PageActions>
-          <Link href="/blog" className={cn(buttonVariants())}>
+          <Link
+            href="/blog"
+            className={cn(buttonVariants())}
+            aria-label="Start Reading"
+          >
             Start Reading
           </Link>
         </PageActions>
