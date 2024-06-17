@@ -47,6 +47,22 @@ export default function Socials() {
         </svg>
       </Link>
       <Link
+        href="https://medium.com/@ladparth"
+        aria-label="Find me on Medium, external website, opens in new tab"
+        target="_blank"
+        rel="me noopener"
+        className="focus-ring-base flex flex-row items-center justify-center rounded-full p-2 transition-colors duration-150 focus-ring-colors-dark-header hover:bg-white/20"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          fill="currentColor"
+          viewBox="0 0 16 16"
+        >
+          <path d="M9.025 8c0 2.485-2.02 4.5-4.513 4.5A4.506 4.506 0 0 1 0 8c0-2.486 2.02-4.5 4.512-4.5A4.506 4.506 0 0 1 9.025 8m4.95 0c0 2.34-1.01 4.236-2.256 4.236S9.463 10.339 9.463 8c0-2.34 1.01-4.236 2.256-4.236S13.975 5.661 13.975 8M16 8c0 2.096-.355 3.795-.794 3.795-.438 0-.793-1.7-.793-3.795 0-2.096.355-3.795.794-3.795.438 0 .793 1.699.793 3.795" />
+        </svg>
+      </Link>
+      <Link
         href="https://hashnode.com/@parthlad"
         aria-label="Find me on Hashnode, external website, opens in new tab"
         target="_blank"
@@ -70,6 +86,17 @@ export default function Socials() {
       >
         <svg className="h-5 w-5 fill-current" viewBox="0 0 448 512">
           <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path>
+        </svg>
+      </Link>
+      <Link
+        href="https://www.facebook.com/navigatedata/"
+        aria-label="Find me on Facebook, external website, opens in new tab"
+        target="_blank"
+        rel="me noopener"
+        className="focus-ring-base flex flex-row items-center justify-center rounded-full p-2 transition-colors duration-150 focus-ring-colors-dark-header hover:bg-white/20"
+      >
+        <svg className="h-5 w-5 fill-current" viewBox="0 0 448 512">
+          <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06H293.7V6.26S279.06 0 261.5 0c-73.35 0-121.4 44.38-121.4 124.72v70.62H80v92.66h60.1V512h92.74V288z" />
         </svg>
       </Link>
     </div>

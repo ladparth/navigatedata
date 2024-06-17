@@ -33,7 +33,10 @@ const ScrollToTopButton = () => {
         isVisible ? "opacity-100" : "opacity-0"
       }`}
       onClick={scrollToTop}
+      aria-label="Scroll to top of page"
+      title="Scroll to top of page"
     >
+      <span className="sr-only">Scroll to top of page</span>
       <ChevronUp />
     </Button>
   );

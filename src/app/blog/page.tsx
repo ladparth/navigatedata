@@ -16,10 +16,14 @@ export interface BlogPageProps {
 
 export async function generateMetadata(): Promise<Metadata> {
   const publication = await fetchPublication(1);
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/blog`;
 
   const metadata: Metadata = {
     title: "Blog",
     description: publication.descriptionSEO,
+    alternates: {
+      canonical: url,
+    },
     category: "Data Engineering & Analytics",
     publisher: "NavigateData",
     twitter: {
@@ -31,6 +35,8 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     openGraph: {
       title: "NavigateData Blog",
+      siteName: "NavigateData Blog",
+      url,
       description: publication.descriptionSEO,
       images: [
         {

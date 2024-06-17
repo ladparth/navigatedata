@@ -27,7 +27,7 @@ function Search({ placeholder }: Props) {
   }, 300);
 
   return (
-    <div className="relative ml-auto flex-1">
+    <div className="relative ml-auto flex-1" aria-label="Search posts">
       <SearchIcon className="absolute right-3.5 top-2.5 h-4 w-4 text-muted-foreground" />
       <Input
         placeholder={placeholder}
