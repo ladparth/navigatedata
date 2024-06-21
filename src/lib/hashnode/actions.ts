@@ -98,3 +98,4 @@ export async function getSeries() {
     );
   return Object.values(series);
 }
+
