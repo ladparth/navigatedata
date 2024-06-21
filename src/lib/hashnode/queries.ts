@@ -173,3 +173,51 @@ query getPages($host: String!, $slug: String!) {
     }
   }
 }`;
+
+export const getDraftById = `
+query DraftById($id: ObjectId!) {
+  draft(id: $id) {
+    id
+    title
+    subtitle
+    seo {
+      title
+      description
+    }
+    publication {
+      id
+    }
+    canonicalUrl
+    author {
+      name
+      profilePicture
+      username
+      bio {
+        markdown
+      }
+    }
+    coverImage {
+      url
+    }
+    slug
+    readTimeInMinutes
+    content {
+      markdown
+    }
+    tagsV2{
+      __typename
+    }
+    features {
+      tableOfContents {
+        isEnabled
+        items {
+          id
+          level
+          slug
+          title
+          parentId
+        }
+      }
+    }
+  }
+}`;
