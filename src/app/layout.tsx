@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
-import Subscribe from "@/components/subscribe";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -46,6 +46,7 @@ export default function RootLayout({
           {children}
           <SiteFooter />
           <Analytics />
+          <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID!} />
         </ThemeProvider>
         <Toaster richColors position="top-right" />
       </body>
