@@ -1,6 +1,6 @@
 {
   "name": "navigatedata",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "private": true,
   "scripts": {
     "dev": "next dev --experimental-https",
@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
+    "@next/third-parties": "^14.2.4",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -27,7 +28,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "lucide-react": "^0.376.0",
-    "next": "14.2.3",
+    "next": "^14.2.4",
     "next-share": "^0.27.0",
     "next-themes": "^0.3.0",
     "react": "^18",
