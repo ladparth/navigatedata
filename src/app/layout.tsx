@@ -8,6 +8,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { GoogleTagManager } from "@next/third-parties/google";
+import Adsense from "@/components/adsense";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -29,7 +30,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+        <Adsense />
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased flex flex-col",
