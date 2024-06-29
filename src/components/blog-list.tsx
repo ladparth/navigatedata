@@ -1,5 +1,9 @@
 import Link from "next/link";
 import BlogCard from "./blog-card";
+import AdUnit from "./ad-unit";
+import { Card } from "./ui/card";
+import { Fragment } from "react";
+
 export interface Post {
   title: string;
   publishedAt: string;
@@ -58,21 +62,39 @@ export default function BlogList({
 
   return (
     <>
-      {posts.map((post: any) => (
-        <Link
-          href={`/blog/${post.slug}`}
-          key={post.slug}
-          className="w-full md:w-2/3"
-          aria-label={`Read ${post.title}, published on ${post.publishedAt}`}
-        >
-          <BlogCard
-            imageUrl={post.coverImage.url}
-            series={post.series?.name}
-            title={post.title}
-            description={post.brief}
-            time={post.publishedAt}
-          />
-        </Link>
+      {posts.map((post, index) => (
+        <Fragment key={index}>
+          <Link
+            href={`/blog/${post.slug}`}
+            key={post.slug}
+            className="w-full md:w-2/3"
+            aria-label={`Read ${post.title}, published on ${post.publishedAt}`}
+            prefetch={false}
+          >
+            <BlogCard
+              imageUrl={post.coverImage.url}
+              series={post.series?.name}
+              title={post.title}
+              description={post.brief}
+              time={post.publishedAt}
+            />
+          </Link>
+          {(index + 1) % 3 === 0 && (
+            <Card className="w-full md:w-2/3 mx-auto p-4 rounded-lg shadow-md">
+              <AdUnit>
+                <ins
+                  className="adsbygoogle w-full"
+                  style={{ display: "block" }}
+                  data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_PUB_ID!}
+                  data-ad-slot="3384843406"
+                  data-ad-format="auto"
+                  data-ad-layout-key="-f9+5v+4m-d8+7b"
+                  data-full-width-responsive="true"
+                ></ins>
+              </AdUnit>
+            </Card>
+          )}
+        </Fragment>
       ))}
     </>
   );

@@ -61,6 +61,7 @@ export default function Home() {
             href="/blog"
             className={cn(buttonVariants())}
             aria-label="Start Reading"
+            prefetch={false}
           >
             Start Reading
           </Link>
