@@ -83,13 +83,12 @@ export default function BlogList({
             <Card className="w-full md:w-2/3 mx-auto p-4 rounded-lg shadow-md">
               <AdUnit>
                 <ins
-                  className="adsbygoogle w-full"
+                  className="adsbygoogle"
                   style={{ display: "block" }}
                   data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_PUB_ID!}
-                  data-ad-slot="3384843406"
-                  data-ad-format="auto"
+                  data-ad-format="fluid"
                   data-ad-layout-key="-f9+5v+4m-d8+7b"
-                  data-full-width-responsive="true"
+                  data-ad-slot="3384843406"
                 ></ins>
               </AdUnit>
             </Card>
