@@ -12,6 +12,8 @@ import { SocialShare } from "@/components/social-share";
 import AuthorBio from "@/components/author-bio";
 import TOC from "@/components/toc-popover";
 import { getPosts } from "@/lib/hashnode/actions";
+import AdUnit from "@/components/ad-unit";
+import { cn } from "@/lib/utils";
 
 export const dynamicParams = true;
 export const revalidate = 3600;
@@ -174,9 +176,9 @@ export default async function page({ params }: Props) {
       />
       <div className="relative flex flex-col">
         <main className="flex flex-col flex-1 p-6">
-          <div className="w-full mr-auto ml-auto flex items-center justify-center flex-1 max-w-screen-2xl">
+          <div className="w-full mx-auto flex items-center justify-center flex-1 max-w-screen-2xl">
             <Card className="w-full md:w-3/4">
-              <div className="p-0 flex flex-col gap-4 mt-12">
+              <div className="p-0 flex flex-col gap-4 mt-12 px-10">
                 <PostHeader
                   title={post.title}
                   coverImage={post.coverImage.url}
@@ -194,19 +196,46 @@ export default async function page({ params }: Props) {
                     <PostTOC items={post.features.tableOfContents.items} />
                   </div>
                 )}
+                <InArticleAd />
                 <MarkdownToHtml contentMarkdown={post.content.markdown} />
+                <InArticleAd />
                 <div className="flex flex-col gap-2 fixed z-50 xl:bottom-[5.5rem] xl:right-10 bottom-14 right-3">
                   <TOC items={post.features.tableOfContents.items} />
                   <SocialShare title={post.title} slug={post.slug} />
                 </div>
               </div>
-              <div className="py-4 mx-auto w-full px-6 md:max-w-screen-md">
+              <div className="py-4 mx-auto w-full px-10 md:max-w-screen-md">
                 <AuthorBio author={post.author} />
+              </div>
+              <div>
+                <InArticleAd className="mb-4" />
               </div>
             </Card>
           </div>
         </main>
       </div>
     </>
+  );
+}
+
+async function InArticleAd({ className }: { className?: string }) {
+  return (
+    <Card
+      className={cn(
+        `mx-auto w-full px-10 md:max-w-screen-md p-4 rounded-lg shadow-md`,
+        className
+      )}
+    >
+      <AdUnit>
+        <ins
+          className="adsbygoogle"
+          data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_PUB_ID!}
+          style={{ display: "block", textAlign: "center" }}
+          data-ad-layout="in-article"
+          data-ad-format="fluid"
+          data-ad-slot="8920257026"
+        ></ins>
+      </AdUnit>
+    </Card>
   );
 }
