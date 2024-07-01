@@ -39,6 +39,9 @@ query GetPostBySlug($host: String!, $slug: String!) {
         name
         postsCount
       }
+      series{
+          name
+        }
       features{
         tableOfContents{
           isEnabled

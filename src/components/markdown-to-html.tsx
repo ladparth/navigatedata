@@ -23,7 +23,7 @@ const _MarkdownToHtml = ({ contentMarkdown, className }: Props) => {
       />
       <div
         className={cn(
-          "mx-auto w-full px-5 md:max-w-screen-md",
+          "mx-auto w-full md:max-w-screen-md",
           "prose dark:prose-invert prose-pre:border prose-img:rounded-lg prose-img:shadow-lg lg:prose-xl [&>iframe]:w-full [&>iframe]:aspect-video",
           className
         )}

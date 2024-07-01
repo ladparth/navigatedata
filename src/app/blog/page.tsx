@@ -65,7 +65,7 @@ export default async function Home({ searchParams }: BlogPageProps) {
       />
       <div className="relative flex-1 flex flex-col">
         <main className="flex flex-col flex-1 p-6">
-          <div className="w-full mr-auto ml-auto flex-1 flex flex-col items-center space-y-4 max-w-screen-2xl">
+          <div className="w-full mx-auto flex-1 flex flex-col items-center space-y-4 max-w-screen-2xl">
             <div className="flex gap-2 w-full md:w-2/3">
               <Search placeholder="Search posts..." />
               <Sort />

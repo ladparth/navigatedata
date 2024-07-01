@@ -32,7 +32,7 @@ export default function BlogList({
   filter,
 }: {
   initialPosts: Post[];
-  initialPageInfo: PageInfo;
+  initialPageInfo?: PageInfo;
   query?: string;
   sort?: string;
   filter?: string;

@@ -10,7 +10,8 @@ const isProduction = process.env.NODE_ENV === "production";
 const AdUnit = ({ children }: Props) => {
   return (
     <Suspense>
-      {isProduction ? <AdUnitClient>{children}</AdUnitClient> : <>{children}</>}
+      {/* {isProduction ? <AdUnitClient>{children}</AdUnitClient> : <>{children}</>} */}
+      <AdUnitClient>{children}</AdUnitClient>
     </Suspense>
   );
 };

@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
 import { PostHeader } from "@/components/post-header";
 import { query } from "@/lib/graphql";
@@ -11,10 +11,16 @@ import { Metadata } from "next/types";
 import { SocialShare } from "@/components/social-share";
 import AuthorBio from "@/components/author-bio";
 import TOC from "@/components/toc-popover";
-import { getPosts } from "@/lib/hashnode/actions";
+import { getPosts, getSeries } from "@/lib/hashnode/actions";
 import AdUnit from "@/components/ad-unit";
 import { cn } from "@/lib/utils";
-
+import BlogList from "@/components/blog-list";
+import Image from "next/image";
+import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 export const dynamicParams = true;
 export const revalidate = 3600;
 
@@ -162,10 +168,18 @@ export default async function page({ params }: Props) {
     },
   });
 
+  const posts = await getPosts();
+
   const post: Post = publication?.post;
   if (!post) {
     notFound();
   }
+  const filteredPosts = posts
+    .filter((post) => {
+      return post.series?.name === publication?.post?.series?.name;
+    })
+    .slice(0, 5);
+
   return (
     <>
       <script
@@ -175,10 +189,10 @@ export default async function page({ params }: Props) {
         }}
       />
       <div className="relative flex flex-col">
-        <main className="flex flex-col flex-1 p-6">
-          <div className="w-full mx-auto flex items-center justify-center flex-1 max-w-screen-2xl">
-            <Card className="w-full md:w-3/4">
-              <div className="p-0 flex flex-col gap-4 mt-12 px-10">
+        <main className="flex flex-col p-4">
+          <div className="w-full mx-auto flex max-sm:flex-col gap-6 max-w-screen-2xl pt-6 px-2">
+            <div className="w-full md:w-3/4 space-y-6">
+              <div className="w-full space-y-4">
                 <PostHeader
                   title={post.title}
                   coverImage={post.coverImage.url}
@@ -192,7 +206,7 @@ export default async function page({ params }: Props) {
                   tags={post.tags}
                 />
                 {post.features.tableOfContents.isEnabled && (
-                  <div className="px-5">
+                  <div className="md:px-5">
                     <PostTOC items={post.features.tableOfContents.items} />
                   </div>
                 )}
@@ -204,13 +218,50 @@ export default async function page({ params }: Props) {
                   <SocialShare title={post.title} slug={post.slug} />
                 </div>
               </div>
-              <div className="py-4 mx-auto w-full px-10 md:max-w-screen-md">
+              <div className="w-full">
                 <AuthorBio author={post.author} />
               </div>
-              <div>
-                <InArticleAd className="mb-4" />
-              </div>
-            </Card>
+              <InArticleAd />
+            </div>
+            <div className="w-full md:w-1/4 md:px-4 space-y-4">
+              <h2 className="font-semibold text-xl">More Posts</h2>
+              <Separator />
+              {filteredPosts.map((post, index) => (
+                <div key={post.slug} className="space-y-2">
+                  <Link href={`/blog/${post.slug}`}>
+                    <div className="w-full space-y-2">
+                      <Image
+                        src={post.coverImage.url}
+                        width={1600}
+                        height={880}
+                        alt="hero"
+                        className="rounded-lg"
+                      />
+                      <h2 className="font-semibold">{post.title}</h2>
+                    </div>
+                  </Link>
+                  <Separator />
+                  {(index + 1) % 2 === 0 && (
+                    <DisplayAdUnit
+                      className="w-full mx-auto p-4 rounded-lg shadow-md"
+                      format="rectangle"
+                    />
+                  )}
+                </div>
+              ))}
+              <DisplayAdUnit
+                className="w-full mx-auto p-4 rounded-lg shadow-md"
+                format="auto"
+              />
+
+              {Array.from({ length: 5 }).map((_, index) => (
+                <DisplayAdUnit
+                  key={index}
+                  className="w-full mx-auto p-4 rounded-lg shadow-md"
+                  format="auto"
+                />
+              ))}
+            </div>
           </div>
         </main>
       </div>
@@ -218,14 +269,32 @@ export default async function page({ params }: Props) {
   );
 }
 
-async function InArticleAd({ className }: { className?: string }) {
+function DisplayAdUnit({
+  className,
+  format,
+}: {
+  className?: string;
+  format?: string;
+}) {
   return (
-    <Card
-      className={cn(
-        `mx-auto w-full px-10 md:max-w-screen-md p-4 rounded-lg shadow-md`,
-        className
-      )}
-    >
+    <div className={className}>
+      <AdUnit>
+        <ins
+          className="adsbygoogle"
+          data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_PUB_ID!}
+          style={{ display: "block" }}
+          data-ad-slot="6759868245"
+          data-ad-format={format}
+          data-full-width-responsive="true"
+        ></ins>
+      </AdUnit>
+    </div>
+  );
+}
+
+function InArticleAd({ className }: { className?: string }) {
+  return (
+    <div className={className}>
       <AdUnit>
         <ins
           className="adsbygoogle"
@@ -236,6 +305,6 @@ async function InArticleAd({ className }: { className?: string }) {
           data-ad-slot="8920257026"
         ></ins>
       </AdUnit>
-    </Card>
+    </div>
   );
 }
