@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
 import { PostHeader } from "@/components/post-header";
 import { query } from "@/lib/graphql";
@@ -11,19 +10,13 @@ import { Metadata } from "next/types";
 import { SocialShare } from "@/components/social-share";
 import AuthorBio from "@/components/author-bio";
 import TOC from "@/components/toc-popover";
-import { getPosts, getSeries } from "@/lib/hashnode/actions";
+import { getPosts } from "@/lib/hashnode/actions";
 import AdUnit from "@/components/ad-unit";
-import { cn } from "@/lib/utils";
-import BlogList from "@/components/blog-list";
-import Image from "next/image";
-import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import MorePosts from "@/components/more-posts";
 export const dynamicParams = true;
 export const revalidate = 3600;
-
+export const dynamic = 'force-dynamic'
 export interface Post {
   [x: string]: any;
   id: string;
@@ -147,7 +140,6 @@ export async function generateMetadata({ params }: Props) {
 
 export async function generateStaticParams() {
   const posts = await getPosts();
-
   return posts.map((post) => ({
     params: {
       slug: post.slug,
@@ -168,17 +160,10 @@ export default async function page({ params }: Props) {
     },
   });
 
-  const posts = await getPosts();
-
   const post: Post = publication?.post;
   if (!post) {
     notFound();
   }
-  const filteredPosts = posts
-    .filter((post) => {
-      return post.series?.name === publication?.post?.series?.name;
-    })
-    .slice(0, 5);
 
   return (
     <>
@@ -226,69 +211,12 @@ export default async function page({ params }: Props) {
             <div className="w-full md:w-1/4 md:px-4 space-y-4">
               <h2 className="font-semibold text-xl">More Posts</h2>
               <Separator />
-              {filteredPosts.map((post, index) => (
-                <div key={post.slug} className="space-y-2">
-                  <Link href={`/blog/${post.slug}`}>
-                    <div className="w-full space-y-2">
-                      <Image
-                        src={post.coverImage.url}
-                        width={1600}
-                        height={880}
-                        alt="hero"
-                        className="rounded-lg"
-                      />
-                      <h2 className="font-semibold">{post.title}</h2>
-                    </div>
-                  </Link>
-                  <Separator />
-                  {(index + 1) % 2 === 0 && (
-                    <DisplayAdUnit
-                      className="w-full mx-auto p-4 rounded-lg shadow-md"
-                      format="rectangle"
-                    />
-                  )}
-                </div>
-              ))}
-              <DisplayAdUnit
-                className="w-full mx-auto p-4 rounded-lg shadow-md"
-                format="auto"
-              />
-
-              {Array.from({ length: 5 }).map((_, index) => (
-                <DisplayAdUnit
-                  key={index}
-                  className="w-full mx-auto p-4 rounded-lg shadow-md"
-                  format="auto"
-                />
-              ))}
+              <MorePosts series={post.series?.name} />
             </div>
           </div>
         </main>
       </div>
     </>
-  );
-}
-
-function DisplayAdUnit({
-  className,
-  format,
-}: {
-  className?: string;
-  format?: string;
-}) {
-  return (
-    <div className={className}>
-      <AdUnit>
-        <ins
-          className="adsbygoogle"
-          data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_PUB_ID!}
-          style={{ display: "block" }}
-          data-ad-slot="6759868245"
-          data-ad-format={format}
-          data-full-width-responsive="true"
-        ></ins>
-      </AdUnit>
-    </div>
   );
 }
 
