@@ -76,4 +76,6 @@
 }
 ins.adsbygoogle * {
   border-radius: 0.5rem !important;
+  background-color: transparent !important;
+  background: transparent !important;
 }

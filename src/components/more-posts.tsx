@@ -44,7 +44,7 @@ export default async function MorePosts({ series }: { series: string }) {
       {Array.from({ length: 5 }).map((_, index) => (
         <DisplayAdUnit
           key={index}
-          className="w-full mx-auto p-4 rounded-lg shadow-md"
+          // className="w-full mx-auto p-4 rounded-lg shadow-md"
           format="auto"
         />
       ))}
@@ -60,10 +60,10 @@ function DisplayAdUnit({
   format?: string;
 }) {
   return (
-    <div className={className}>
+    // <div className={className}>
       <AdUnit>
         <ins
-          className="adsbygoogle"
+          className="adsbygoogle w-full"
           data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_PUB_ID!}
           style={{ display: "block" }}
           data-ad-slot="6759868245"
@@ -71,6 +71,6 @@ function DisplayAdUnit({
           data-full-width-responsive="true"
         ></ins>
       </AdUnit>
-    </div>
+    // </div>
   );
 }

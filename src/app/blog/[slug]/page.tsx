@@ -222,10 +222,10 @@ export default async function page({ params }: Props) {
 
 function InArticleAd({ className }: { className?: string }) {
   return (
-    <div className={className}>
+    // <div className={className}>
       <AdUnit>
         <ins
-          className="adsbygoogle"
+          className="adsbygoogle w-full"
           data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_PUB_ID!}
           style={{ display: "block", textAlign: "center" }}
           data-ad-layout="in-article"
@@ -233,6 +233,6 @@ function InArticleAd({ className }: { className?: string }) {
           data-ad-slot="8920257026"
         ></ins>
       </AdUnit>
-    </div>
+    // </div>
   );
 }
