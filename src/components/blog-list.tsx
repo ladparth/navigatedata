@@ -1,5 +1,7 @@
 import Link from "next/link";
 import BlogCard from "./blog-card";
+import { Fragment } from "react";
+import { InFeedAdUnit } from "./ad-unit";
 export interface Post {
   title: string;
   publishedAt: string;
@@ -58,21 +60,27 @@ export default function BlogList({
 
   return (
     <>
-      {posts.map((post: any) => (
-        <Link
-          href={`/blog/${post.slug}`}
-          key={post.slug}
-          className="w-full md:w-2/3"
-          aria-label={`Read ${post.title}, published on ${post.publishedAt}`}
-        >
-          <BlogCard
-            imageUrl={post.coverImage.url}
-            series={post.series?.name}
-            title={post.title}
-            description={post.brief}
-            time={post.publishedAt}
-          />
-        </Link>
+      {posts.map((post, index) => (
+        <Fragment key={index}>
+          <Link
+            href={`/blog/${post.slug}`}
+            key={post.slug}
+            className="w-full md:w-2/3"
+            aria-label={`Read ${post.title}, published on ${post.publishedAt}`}
+            prefetch={false}
+          >
+            <BlogCard
+              imageUrl={post.coverImage.url}
+              series={post.series?.name}
+              title={post.title}
+              description={post.brief}
+              time={post.publishedAt}
+            />
+          </Link>
+          {(index + 1) % 3 === 0 && (
+            <InFeedAdUnit className="w-full md:w-2/3 mx-auto p-4 rounded-lg shadow-md" />
+          )}
+        </Fragment>
       ))}
     </>
   );
