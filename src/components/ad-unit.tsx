@@ -11,8 +11,7 @@ const isProduction = process.env.NODE_ENV === "production";
 const AdUnit = ({ children }: Props) => {
   return (
     <Suspense>
-      {/* {isProduction ? <AdUnitClient>{children}</AdUnitClient> : <>{children}</>} */}
-      <AdUnitClient>{children}</AdUnitClient>
+      {isProduction ? <AdUnitClient>{children}</AdUnitClient> : <>{children}</>}
     </Suspense>
   );
 };
@@ -35,13 +34,14 @@ export function InArticleAd({ className }: { className?: string }) {
     </div>
   );
 }
+type format = "auto" | "rectangle" | "vertical" | "horizontal";
 
 export function DisplayAdUnit({
   className,
   format,
 }: {
   className?: string;
-  format?: string;
+  format?: format;
 }) {
   return (
     <div className={className}>
