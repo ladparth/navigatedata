@@ -38,14 +38,14 @@ export default async function MorePosts({ series }: { series: string }) {
       ))}
       <DisplayAdUnit
         className="w-4/5 md:w-full mx-auto p-2 rounded-lg shadow-md"
-        format="auto"
+        format="vertical"
       />
 
       {Array.from({ length: 5 }).map((_, index) => (
         <DisplayAdUnit
           key={index}
           className="hidden md:block w-4/5 md:w-full mx-auto p-2 rounded-lg shadow-md"
-          format="auto"
+          format="vertical"
         />
       ))}
     </>
