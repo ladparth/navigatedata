@@ -12,9 +12,12 @@ import { SocialShare } from "@/components/social-share";
 import AuthorBio from "@/components/author-bio";
 import TOC from "@/components/toc-popover";
 import { getPosts } from "@/lib/hashnode/actions";
+import { InArticleAd } from "@/components/ad-unit";
+import { Separator } from "@/components/ui/separator";
+import MorePosts from "@/components/more-posts";
 
 export const dynamicParams = true;
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 export interface Post {
   [x: string]: any;
@@ -164,6 +167,8 @@ export default async function page({ params }: Props) {
   if (!post) {
     notFound();
   }
+
+  const posts = await getPosts();
   return (
     <>
       <script
@@ -173,10 +178,10 @@ export default async function page({ params }: Props) {
         }}
       />
       <div className="relative flex flex-col">
-        <main className="flex flex-col flex-1 p-6">
-          <div className="w-full mr-auto ml-auto flex items-center justify-center flex-1 max-w-screen-2xl">
-            <Card className="w-full md:w-3/4">
-              <div className="p-0 flex flex-col gap-4 mt-12">
+        <main className="flex flex-col p-4">
+          <div className="w-full mx-auto flex max-sm:flex-col gap-6 max-w-screen-2xl pt-6 px-2">
+            <div className="w-full md:w-3/4 space-y-6">
+              <div className="w-full space-y-4">
                 <PostHeader
                   title={post.title}
                   coverImage={post.coverImage.url}
@@ -190,20 +195,28 @@ export default async function page({ params }: Props) {
                   tags={post.tags}
                 />
                 {post.features.tableOfContents.isEnabled && (
-                  <div className="px-5">
+                  <div className="md:px-5">
                     <PostTOC items={post.features.tableOfContents.items} />
                   </div>
                 )}
+                <InArticleAd className="p-2 lg:w-3/4 mx-auto" />
                 <MarkdownToHtml contentMarkdown={post.content.markdown} />
+                <InArticleAd className="p-2 lg:w-3/4 mx-auto" />
                 <div className="flex flex-col gap-2 fixed z-50 xl:bottom-[5.5rem] xl:right-10 bottom-14 right-3">
                   <TOC items={post.features.tableOfContents.items} />
                   <SocialShare title={post.title} slug={post.slug} />
                 </div>
               </div>
-              <div className="py-4 mx-auto w-full px-6 md:max-w-screen-md">
+              <div className="w-full">
                 <AuthorBio author={post.author} />
               </div>
-            </Card>
+              <InArticleAd className="p-2 lg:w-3/4 mx-auto" />
+            </div>
+            <div className="w-full md:w-1/4 space-y-4">
+              <h2 className="font-semibold text-xl">More Posts</h2>
+              <Separator />
+              <MorePosts series={post.series?.name} />
+            </div>
           </div>
         </main>
       </div>
