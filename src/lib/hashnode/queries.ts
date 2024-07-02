@@ -173,6 +173,9 @@ query getPages($host: String!, $slug: String!) {
         title
         description
       }
+      content {
+        markdown
+      }  
     }
   }
 }`;
